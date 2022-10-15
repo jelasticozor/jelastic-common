@@ -13,9 +13,9 @@ function getFirewallInBoundRules(nodeGroup) {
   return rules
 }
 
-function removeFirewallRule(ruleId) {
-  resp = jelastic.environment.security.RemoveRule(getParam("TARGET_APPID"), session, rules[i].id)
-  checkJelasticResponse(resp, "Unable to remove security rule " + rules[i].name)
+function removeFirewallRule(rule) {
+  resp = jelastic.environment.security.RemoveRule(getParam("TARGET_APPID"), session, rule.id)
+  checkJelasticResponse(resp, "Unable to remove security rule " + rule.name)
 }
 
 function addFirewallRule(nodeGroup, rule) {
@@ -27,7 +27,7 @@ function openNodeGroupToLoadBalancerOnly(nodeGroup, relatedNodeGroup) {
   rules = getFirewallInBoundRules(nodeGroup)
 
   for (var i = 0; i < rules.length; ++i) {
-    removeFirewallRule(rules[i].id)
+    removeFirewallRule(rules[i])
 
     delete rules[i]["id"]
     rules[i]["relatedNodeGroup"] = relatedNodeGroup
