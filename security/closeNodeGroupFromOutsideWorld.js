@@ -1,13 +1,11 @@
-const APPID = getParam("TARGET_APPID")
-
 function checkJelasticResponse(response, errorMsg) {
   if (!response || response.result !== 0) {
-    throw errorMsg + ": " + response;
+    throw errorMsg + ": " + response
   }
 }
 
 function getFirewallInBoundRules(nodeGroup) {
-  var resp = jelastic.environment.security.GetRules(APPID, session, nodeGroup = nodeGroup, direction = "IN")
+  var resp = jelastic.environment.security.GetRules(getParam("TARGET_APPID"), session, nodeGroup = nodeGroup, direction = "IN")
   checkJelasticResponse(resp, "Unable to get security rules")
   rules = resp.rules
   rules.shift()
@@ -16,12 +14,12 @@ function getFirewallInBoundRules(nodeGroup) {
 }
 
 function removeFirewallRule(ruleId) {
-  resp = jelastic.environment.security.RemoveRule(APPID, session, rules[i].id)
+  resp = jelastic.environment.security.RemoveRule(getParam("TARGET_APPID"), session, rules[i].id)
   checkJelasticResponse(resp, "Unable to remove security rule " + rules[i].name)
 }
 
 function addFirewallRule(nodeGroup, rule) {
-    resp = jelastic.environment.security.AddRule(APPID, session, rule, nodeGroup = nodeGroup)
+    resp = jelastic.environment.security.AddRule(getParam("TARGET_APPID"), session, rule, nodeGroup = nodeGroup)
     checkJelasticResponse(resp, "Unable to add security rule " + rule.name)  
 }
 
