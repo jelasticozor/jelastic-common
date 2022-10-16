@@ -36,6 +36,12 @@ function openNodeGroupToLoadBalancerOnly(nodeGroup, relatedNodeGroup) {
   }
 }
 
+function disableSlbAccess(nodeGroup) {
+  resp = jelastic.environment.nodegroup.SetSLBAccessEnabled(nodeGroup=nodeGroup, enabled=false)
+  checkJelasticResponse(resp, "Unable to disable SLB access on node group " + nodeGroup)
+}
+
+disableSlbAccess(getParam("nodeGroup"))
 openNodeGroupToLoadBalancerOnly(getParam("nodeGroup"), getParam("relatedNodeGroup"))
 
 return {result: 0}
